@@ -10,7 +10,7 @@ import string
 import pytesseract
 
 # Adding path to config
-app.config['INITIAL_FILE_UPLOADS'] = 'app/static/uploads'
+#app.config['INITIAL_FILE_UPLOADS'] = './app/static/uploads'
 
 # Route to home page
 @app.route("/", methods=["GET", "POST"])
@@ -42,7 +42,7 @@ def index():
 
 		# Extracting text from image
 		custom_config = r'-l eng --oem 3 --psm 6'
-		pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+		pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 		text = pytesseract.image_to_string(image,config=custom_config)
 
 		# Remove symbol if any
@@ -56,7 +56,7 @@ def index():
 
 		# Saving image to display in html
 		img = Image.fromarray(image_arr, 'RGB')
-		img.save(os.path.join(app.config['INITIAL_FILE_UPLOADS'], name))
+		img.save(r'/home/TextRecognitionApp/mysite/app/static/uploads/'+name)
 		# Returning template, filename, extracted text
 		return render_template('index.html', full_filename = full_filename, text = new_string)
 
